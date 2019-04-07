@@ -1,0 +1,42 @@
+//this is an example modpack for MDP.
+//number of lines is not important but order of sections IS.
+
+//Displayname of your modpack
+MODPACKNAME:
+Example modpack
+
+//the vanilla version of Minecraft that the modpack is based on. find the exact name in .minecraft/versions
+//MDP will check to see if it is installed and will tell the user to install it if it is missing
+//this section is REQUIRED
+MCVERSION:
+1.7.10
+
+//the Forge version that the modpack is based on. find the exact name in .minecraft/versions
+//MDP will check to see if it is installed and will download and run the installer if it isn't
+//this section is REQUIRED
+FORGEVERSION:
+1.7.10-Forge10.13.4.1614-1.7.10
+
+//The DIRECT link to the universal installer of the correct version of Forge
+//MDP will only download this if the correct version of forge is missing
+//this section is REQUIRED
+FORGELINK:
+https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-installer.jar
+
+//A list of links, one per line, of DIRECT downloads of mods. Only forge mods are supported.
+//this section is REQUIRED
+MODSOURCES:
+http://clarencecraft.ddns.net:8000/modpackDistroPlatform/make/purplerite.jar
+
+//A list of links, one per line, of DIRECT downloads of config files.
+//this section is REQUIRED
+//this section is OPTIONAL, only uncomment it if you intend to use it!
+//CONFIGS:
+
+//A list of links, one per line, of DIRECT downloads of mods. These are mods that only need to be installed on the client-side. Only forge mods are supported.
+//this section is OPTIONAL, only uncomment it if you intend to use it!
+//CLIENTMODSOURCES:
+
+//A list of links, one per line, of DIRECT downloads of resource packs.
+//this section is OPTIONAL, only uncomment it if you intend to use it!
+//RESOURCEPACKSOURCES:

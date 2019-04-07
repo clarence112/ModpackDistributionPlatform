@@ -6,18 +6,25 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("clarence112.mps")
 
 open('downloads/officialpacks.txt', 'wb').write(requests.get('http://clarencecraft.ddns.net:8000/officialpacks.txt', allow_redirects=True).content)
 
-font = pygame.font.Font("assets/rubik.ttf", 24)
+font = [pygame.font.Font("assets/rubik.ttf", 24), pygame.font.Font("assets/rubik.ttf", 24)]
+font[1].set_bold(True)
 
 stage = 0
 packurl = ""
 
-def textrend(textinput, x = 0, y = 0, textcolor = [255, 255, 255], aa = True):
-    textSuface = font.render(textinput, aa, textcolor)  # lint:ok
+def textrend(textinput, x = 0, y = 0, textcolor = [255, 255, 255], fonttype = 0, aa = True):
+    textSuface = font[fonttype].render(textinput, aa, textcolor)  # lint:ok
     screen.blit(textSuface,(x, y))
 
+def drawTopBar():
+    pygame.draw.rect(screen, 0x333333, pygame.Rect((0, 0), (850, 70)))
+    textrend("MDP", 50, 20, fonttype = 1)
+
 def drawWelcomeScreen():
-    if stage == 0:
-        textrend("test")
+    pass
+
+if(not(os.path.exists("downloads"))):
+    os.mkdir("downloads")
 
 if(os.path.exists("C:/Program Files (x86)/Minecraft/runtime")):
     size = width, height = 850, 500
@@ -29,7 +36,8 @@ if(os.path.exists("C:/Program Files (x86)/Minecraft/runtime")):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 test = 0
-        screen.fill(0x333333)
+        screen.fill(0x363C3D)
+        drawTopBar()
         drawWelcomeScreen()
         pygame.display.flip()
 else:

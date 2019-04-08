@@ -1,8 +1,14 @@
-import pygame, requests, os, ctypes, webbrowser, pygame.gfxdraw
+import pygame, requests, os, ctypes, webbrowser, pygame.gfxdraw, pygame_textinput
 
 #SETUP ---------------------------------------------------------------
 
 def setup():
+
+    global ranStageInit
+    ranStageInit = "nope"
+
+    global events
+    events = []
 
     global cbuttons
     cbuttons = []
@@ -94,7 +100,17 @@ def drawFooter():
 #DRAW STAGE 0 --------------------------------------------------------
 
 def drawWelcomeScreen():
-    pass
+    if textinput.update(events):
+         print(textinput.get_text())
+
+    pygame.draw.rect(screen, 0xffffff, pygame.Rect((0, 100), (850, 21)))
+
+    screen.blit(textinput.get_surface(), (10, 100))
+
+    if(textinput.get_text() == ""):
+        textrend("Paste or type mopack URL here!", 12, 101, [150, 150, 150], 4)
+
+    makeBttn("global stage; stage = 1; global packurl; packurl = textinput.get_text()", "Install Modpack", 710, 100, [255, 51, 102], fonttype = 4)
 
 #DRAW ERRORS ---------------------------------------------------------
 
@@ -120,7 +136,9 @@ def commonend():
     drawTopBar()
     drawFooter()
 
-    for event in pygame.event.get():
+    global events
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             global stage
             stage = "close"
@@ -141,6 +159,12 @@ while(not(stage == "close")):
     commonstart()
 
     if stage == 0:
+
+        if(not(ranStageInit == 0)):
+            ranStageInit = 0
+            global textinput
+            textinput = pygame_textinput.TextInput(font_family = "assets/rubik.ttf", font_size = 16)
+
         drawWelcomeScreen()
 
     if stage == "error0":

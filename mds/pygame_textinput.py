@@ -7,8 +7,9 @@ import os.path
 
 import pygame
 import pygame.locals as pl
+import pyperclip #Edited by clarence112
 
-pygame.font.init()
+pygame.init()
 
 
 class TextInput:
@@ -19,6 +20,7 @@ class TextInput:
     """
     def __init__(
             self,
+            initial_clip="", #Edited by clarence112
             initial_string="",
             font_family="",
             font_size=35,
@@ -39,6 +41,7 @@ class TextInput:
         """
 
         # Text related vars:
+        self.clip = initial_clip #Edited by clarence112
         self.antialias = antialias
         self.text_color = text_color
         self.font_size = font_size
@@ -59,7 +62,7 @@ class TextInput:
         self.keyrepeat_interval_ms = repeat_keys_interval_ms
 
         # Things cursor:
-        self.cursor_surface = pygame.Surface((int(self.font_size/20+1), self.font_size))
+        self.cursor_surface = pygame.Surface((int(self.font_size/20+1), self.font_size+30))
         self.cursor_surface.fill(cursor_color)
         self.cursor_position = len(initial_string)  # Inside text
         self.cursor_visible = True  # Switches every self.cursor_switch_ms ms
@@ -107,6 +110,15 @@ class TextInput:
 
                 elif event.key == pl.K_HOME:
                     self.cursor_position = 0
+
+                elif event.unicode == "": #Edited by clarence112, detects ctrl+v
+                    self.clip = pyperclip.paste()
+                    self.input_string = (
+                        self.input_string[:self.cursor_position]
+                        + self.clip
+                        + self.input_string[self.cursor_position:]
+                    )
+                    self.cursor_position += len(self.clip)
 
                 else:
                     # If no special key is pressed, add unicode of key to input_string

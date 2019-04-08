@@ -95,22 +95,34 @@ def drawTopBar():
 
 def drawFooter():
     pygame.draw.rect(screen, 0x333333, pygame.Rect((0, 482), (850, 70)))
-    makeBttn("webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform')", "MDP was made by clarence112", 3, 485, [51, 51, 51], fonttype = 2)
+    makeBttn("webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform')", "MDP was made by clarence112", 3, 485, [51, 51, 51], fonttype = 2, fancy = False)
 
 #DRAW STAGE 0 --------------------------------------------------------
 
 def drawWelcomeScreen():
+
+    #URL bar
     if textinput.update(events):
          print(textinput.get_text())
-
     pygame.draw.rect(screen, 0xffffff, pygame.Rect((0, 100), (850, 21)))
-
     screen.blit(textinput.get_surface(), (10, 100))
-
     if(textinput.get_text() == ""):
         textrend("Paste or type mopack URL here!", 12, 101, [150, 150, 150], 4)
-
     makeBttn("global stage; stage = 1; global packurl; packurl = textinput.get_text()", "Install Modpack", 710, 100, [255, 51, 102], fonttype = 4)
+
+    #Featured box
+    textrend("Featured modpacks:", 10, 130)
+
+    for i in list(range(16)):
+        if (i % 2) == 0:
+            pygame.draw.rect(screen, 0xffffff, pygame.Rect((10, 19 * i + 170), (500, 21)))
+        else:
+            pygame.draw.rect(screen, 0xeeeeee, pygame.Rect((10, 19 * i + 170), (500, 21)))
+
+        if (i % 2) == 0:
+            makeBttn("global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + str(i) + "')", str(i), 10, 19 * i + 170, [255, 255, 255], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+        else:
+            makeBttn("global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + str(i) + "')", str(i), 10, 19 * i + 170, [238, 238, 238], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
 
 #DRAW ERRORS ---------------------------------------------------------
 
@@ -120,7 +132,7 @@ def drawError(problem = "Something went wrong!", soulution = "Whatever it was, t
     textrend(soulution, 6, 180, fonttype = 4)
     if crash == "and burn":
         makeBttn("global stage; stage = 'close'", "Quit MDP", 450, 445, [255, 51, 102], fonttype = 1)
-        makeBttn("global stage; stage = 'close'; webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform/issues')", "File Bug Report", 616, 445, [255, 51, 102], fonttype = 1)
+        makeBttn("global textinput; stage = 'close'; webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform/issues')", "File Bug Report", 616, 445, [255, 51, 102], fonttype = 1)
     if crash == "no":
         makeBttn("global stage; stage = 0", "Retry", 745, 445, [255, 51, 102], fonttype = 1)
 
@@ -154,6 +166,8 @@ setup()
 
 scroll = 0
 
+#stage = "error0"
+
 while(not(stage == "close")):
 
     commonstart()
@@ -168,6 +182,7 @@ while(not(stage == "close")):
         drawWelcomeScreen()
 
     if stage == "error0":
+        #drawError()
         drawError("The URL source or .modpack file is corrupted!", "Please check the file or URL and try again.", crash = "no")
 
     commonend()

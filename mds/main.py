@@ -23,6 +23,10 @@ def setup():
 
     open('downloads/officialpacks.txt', 'wb').write(requests.get('http://clarencecraft.ddns.net:8000/officialpacks.txt', allow_redirects=True).content)
 
+    global officialPackList
+    with open("downloads/officialpacks.txt") as f:
+            officialPackList = f.read().splitlines()
+
     global font
     font = [pygame.font.Font("assets/rubik.ttf", 24), pygame.font.Font("assets/rubik.ttf", 24), pygame.font.Font("assets/Anton-Regular.ttf", 8), pygame.font.Font("assets/BowlbyOneSC-Regular.ttf", 80), pygame.font.Font("assets/rubik.ttf", 16)]
     font[1].set_bold(True)
@@ -97,15 +101,28 @@ def drawFooter():
     pygame.draw.rect(screen, 0x333333, pygame.Rect((0, 482), (850, 70)))
     makeBttn("webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform')", "MDP was made by clarence112", 3, 485, [51, 51, 51], fonttype = 2, fancy = False)
 
+#GET TEXT WIDTH ------------------------------------------------------
+
+def twidth(tinput, fonttype):
+    return(pygame.font.Font.size(font[fonttype], tinput)[0])
+
 #DRAW STAGE 0 --------------------------------------------------------
 
 def drawWelcomeScreen():
 
     #URL bar
     if textinput.update(events):
-         print(textinput.get_text())
+         global stage;
+         stage = 1
+         global packurl
+         packurl = textinput.get_text()
     pygame.draw.rect(screen, 0xffffff, pygame.Rect((0, 100), (850, 21)))
-    screen.blit(textinput.get_surface(), (10, 100))
+
+    if(twidth(textinput.get_text(), 4) > 680):
+        screen.blit(textinput.get_surface(), (10 - (twidth(textinput.get_text(), 4) - 680), 100))
+    else:
+        screen.blit(textinput.get_surface(), (10, 100))
+
     if(textinput.get_text() == ""):
         textrend("Paste or type mopack URL here!", 12, 101, [150, 150, 150], 4)
     makeBttn("global stage; stage = 1; global packurl; packurl = textinput.get_text()", "Install Modpack", 710, 100, [255, 51, 102], fonttype = 4)
@@ -113,16 +130,39 @@ def drawWelcomeScreen():
     #Featured box
     textrend("Featured modpacks:", 10, 130)
 
-    for i in list(range(16)):
+    for i in list(range(14)):
         if (i % 2) == 0:
-            pygame.draw.rect(screen, 0xffffff, pygame.Rect((10, 19 * i + 170), (500, 21)))
+            pygame.draw.rect(screen, 0xffffff, pygame.Rect((10, 21 * i + 170), (410, 21)))
         else:
-            pygame.draw.rect(screen, 0xeeeeee, pygame.Rect((10, 19 * i + 170), (500, 21)))
+            pygame.draw.rect(screen, 0xeeeeee, pygame.Rect((10, 21 * i + 170), (410, 21)))
 
-        if (i % 2) == 0:
-            makeBttn("global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + str(i) + "')", str(i), 10, 19 * i + 170, [255, 255, 255], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
-        else:
-            makeBttn("global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + str(i) + "')", str(i), 10, 19 * i + 170, [238, 238, 238], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+    if(len(officialPackList) > 28):
+
+        for i in list(range(14)):
+            bfunc = "global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + officialPackList[(i + scroll) * 2 + 1] + "')"
+            if (i % 2) == 0:
+                makeBttn(bfunc, officialPackList[(i + scroll) * 2], 10, 21 * i + 170, [255, 255, 255], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+            else:
+                makeBttn(bfunc, officialPackList[(i + scroll) * 2], 10, 21 * i + 170, [238, 238, 238], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+    else:
+        for i in list(range(int(len(officialPackList) / 2))):
+            bfunc = "global textinput; textinput = pygame_textinput.TextInput(font_family = 'assets/rubik.ttf', font_size = 16, initial_string = '" + officialPackList[i * 2 + 1] + "')"
+            if (i % 2) == 0:
+                makeBttn(bfunc, officialPackList[i * 2], 10, 21 * i + 170, [255, 255, 255], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+            else:
+                makeBttn(bfunc, officialPackList[i * 2], 10, 21 * i + 170, [238, 238, 238], textcolor = [0, 0, 0], fonttype = 4, fancy = 0)
+
+    pygame.draw.rect(screen, 0xaaaaaa, pygame.Rect((378, 170), (42, 42)))
+    pygame.draw.rect(screen, 0xaaaaaa, pygame.Rect((378, 422), (42, 42)))
+
+    if(len(officialPackList) > 28):
+        if(scroll > 0):
+            makeRegion("global scroll; scroll = scroll - 1", 378, 170, 42, 42)
+            pygame.draw.polygon(screen, 0x333333, [[399, 170], [378, 212], [420, 212]])
+
+        if(((len(officialPackList) / 2) - scroll) > 14):
+            makeRegion("global scroll; scroll = scroll + 1", 378, 422, 42, 42)
+            pygame.draw.polygon(screen, 0x333333, [[378, 422], [399, 464], [420, 422]])
 
 #DRAW ERRORS ---------------------------------------------------------
 

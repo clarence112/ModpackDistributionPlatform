@@ -81,7 +81,7 @@ def bttnChk(x, y, key):
 def drawTopBar():
     pygame.draw.rect(screen, 0x333333, pygame.Rect((0, 0), (850, 70)))
     textrend("MDP", 80, 20, fonttype = 1)
-    screen.blit(icons[1], (13,3))
+    screen.blit(icons[1], (9,3))
     textsize = pygame.font.Font.size(font[1], "MDP")
     makeRegion("webbrowser.open_new_tab('http://clarencecraft.ddns.net:8000/modpackDistroPlatform/')", 13, 3, textsize[0] + 80, 70)
 
@@ -134,7 +134,7 @@ def commonend():
 
 setup()
 
-stage = "error0"
+scroll = 0
 
 while(not(stage == "close")):
 

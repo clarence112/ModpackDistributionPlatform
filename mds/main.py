@@ -205,6 +205,7 @@ def commonend():
 setup()
 
 scroll = 0
+anim = ""
 
 #stage = "error0"
 
@@ -221,8 +222,41 @@ while(not(stage == "close")):
 
         drawWelcomeScreen()
 
+    if stage == 1:
+        if(not(ranStageInit == 1)):
+            ranStageInit = 1
+            if(not(packurl == "")):
+                global httpcode
+                try:
+                    modpfile = requests.get(packurl, allow_redirects=False)
+                    httpcode = modpfile.status_code
+                except requests.exceptions.InvalidSchema:
+                    httpcode = "INVALID_URL"
+                except requests.exceptions.ConnectionError:
+                    httpcode = "CONNECTION_TIMEOUT"
+
+                if httpcode == 200:
+                    print("test")
+                else:
+                    stage = "errorhttp"
+            else:
+                stage = 0
+        if anim == "|":
+            anim = "/"
+        elif anim == "/":
+            anim = "-"
+        elif anim == "-":
+            anim = "\\"
+        else:
+            anim = "|"
+
+        drawError("MDP is preparing to install the modpack... " + anim, "", "Please wait.", "nope")
+
     if stage == "error0":
         #drawError()
         drawError("The URL source or .modpack file is corrupted!", "Please check the file or URL and try again.", crash = "no")
+
+    if stage == "errorhttp":
+        drawError("There's somthing wrong with the pack URL", "Got error " + str(httpcode) + ", please check your URL and try again.", crash = "no")
 
     commonend()

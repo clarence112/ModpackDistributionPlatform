@@ -205,7 +205,6 @@ def commonend():
 setup()
 
 scroll = 0
-anim = ""
 
 #stage = "error0"
 
@@ -236,21 +235,17 @@ while(not(stage == "close")):
                     httpcode = "CONNECTION_TIMEOUT"
 
                 if httpcode == 200:
-                    print("test")
+                    open("downloads/pack.modpack", "wb").write(modpfile.content)
+                    stage = "verif"
                 else:
                     stage = "errorhttp"
             else:
                 stage = 0
-        if anim == "|":
-            anim = "/"
-        elif anim == "/":
-            anim = "-"
-        elif anim == "-":
-            anim = "\\"
-        else:
-            anim = "|"
 
-        drawError("MDP is preparing to install the modpack... " + anim, "", "Please wait.", "nope")
+        drawError("MDP is downloading the source list... ", "Please wait.", "nope")
+
+    if stage == "verif":
+
 
     if stage == "error0":
         #drawError()

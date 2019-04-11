@@ -21,11 +21,18 @@ def setup():
     pygame.display.set_icon(icons[0])
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("clarence112.mps")
 
-    open('downloads/officialpacks.txt', 'wb').write(requests.get('http://clarencecraft.ddns.net:8000/officialpacks.txt', allow_redirects=True).content)
+    try:
+        open('downloads/officialpacks.txt', 'wb').write(requests.get('http://clarencecraft.ddns.net:8000/officialpacks.txt', allow_redirects=True).content)
+    except:
+         print("Pack list server down.")
 
-    global officialPackList
-    with open("downloads/officialpacks.txt") as f:
-            officialPackList = f.read().splitlines()
+    try:
+        global officialPackList
+        with open("downloads/officialpacks.txt") as f:
+                officialPackList = f.read().splitlines()
+    except:
+        print("Pack list missing.")
+        officialPackList = ["No packs", "No packs"]
 
     global font
     font = [pygame.font.Font("assets/rubik.ttf", 24), pygame.font.Font("assets/rubik.ttf", 24), pygame.font.Font("assets/Anton-Regular.ttf", 8), pygame.font.Font("assets/BowlbyOneSC-Regular.ttf", 80), pygame.font.Font("assets/rubik.ttf", 16)]
@@ -242,10 +249,17 @@ while(not(stage == "close")):
             else:
                 stage = 0
 
-        drawError("MDP is downloading the source list... ", "Please wait.", "nope")
+        drawError("MDP is downloading the source list... ", "", "Please wait.", "nope")
 
     if stage == "verif":
+        if(not(ranStageInit == "verif")):
+            with open("downloads/pack.modpack") as f:
+                packToInstall = f.read().splitlines()
 
+        if(("MODPACKNAME:" in packToInstall) and ((("MCVERSION:" in packToInstall) and ("FORGEVERSION:" in packToInstall)) and (("FORGELINK:" in packToInstall) and ("MODSOURCES:" in packToInstall)))):
+            pass
+        else:
+            stage == "error0"
 
     if stage == "error0":
         #drawError()

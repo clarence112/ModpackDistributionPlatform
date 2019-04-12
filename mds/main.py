@@ -1,4 +1,5 @@
-import pygame, requests, os, ctypes, webbrowser, pygame.gfxdraw, pygame_textinput
+from tkinter import *
+import pygame, requests, os, ctypes, webbrowser, pygame.gfxdraw, pygame_textinput, tkinter, tkinter.constants, tkinter.filedialog
 
 #SETUP ---------------------------------------------------------------
 
@@ -185,6 +186,12 @@ def drawError(problem = "Something went wrong!", soulution = "Whatever it was, t
 
 #COMMON CODE FOR ALL STAGES ------------------------------------------
 
+def folderselect():
+    root = Tk()
+    root.withdraw()
+    return(tkinter.filedialog.askdirectory())
+
+
 def commonstart():
     screen.fill(0x363C3D)
     global cbuttons
@@ -215,6 +222,7 @@ scroll = 0
 
 #stage = "error0"
 
+global stage
 while(not(stage == "close")):
 
     commonstart()
@@ -253,13 +261,14 @@ while(not(stage == "close")):
 
     if stage == "verif":
         if(not(ranStageInit == "verif")):
+            ranStageInit = "verif"
             with open("downloads/pack.modpack") as f:
                 packToInstall = f.read().splitlines()
 
-        if(("MODPACKNAME:" in packToInstall) and ((("MCVERSION:" in packToInstall) and ("FORGEVERSION:" in packToInstall)) and (("FORGELINK:" in packToInstall) and ("MODSOURCES:" in packToInstall)))):
-            pass
-        else:
-            stage == "error0"
+            if("MCVERSION:" in packToInstall) and ("MODPACKNAME:" in packToInstall) and ("FORGEVERSION:" in packToInstall) and ("MODSOURCES:" in packToInstall):
+                pass
+            else:
+                stage = "error0"
 
     if stage == "error0":
         #drawError()

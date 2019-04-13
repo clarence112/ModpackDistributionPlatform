@@ -266,9 +266,11 @@ while(not(stage == "close")):
                 packToInstall = f.read().splitlines()
 
             if("MCVERSION:" in packToInstall) and ("MODPACKNAME:" in packToInstall) and ("FORGEVERSION:" in packToInstall) and ("MODSOURCES:" in packToInstall):
-                pass
+                stage = "fselect"
             else:
                 stage = "error0"
+
+        drawError("MDP is verfying the source list... ", "", "Please wait.", "nope")
 
     if stage == "error0":
         #drawError()

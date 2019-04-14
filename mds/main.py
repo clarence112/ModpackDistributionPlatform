@@ -184,13 +184,18 @@ def drawError(problem = "Something went wrong!", soulution = "Whatever it was, t
     if crash == "no":
         makeBttn("global stage; stage = 0", "Retry", 745, 445, [255, 51, 102], fonttype = 1)
 
-#COMMON CODE FOR ALL STAGES ------------------------------------------
+#FOLDER SELECT DIALOUGE ----------------------------------------------
 
 def folderselect():
     root = Tk()
     root.withdraw()
     return(tkinter.filedialog.askdirectory())
 
+#FOLDER SELECTION SCREEN ---------------------------------------------
+
+def drawSelectScreen():
+
+#COMMON CODE FOR ALL STAGES ------------------------------------------
 
 def commonstart():
     screen.fill(0x363C3D)
@@ -271,6 +276,12 @@ while(not(stage == "close")):
                 stage = "error0"
 
         drawError("MDP is verfying the source list... ", "", "Please wait.", "nope")
+
+    if stage == "fselect":
+        if(not(ranStageInit == "fselect")):
+            ranStageInit = "fselect"
+
+        drawSelectScreen()
 
     if stage == "error0":
         #drawError()

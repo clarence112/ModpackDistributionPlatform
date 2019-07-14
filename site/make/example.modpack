@@ -28,11 +28,10 @@ MODSOURCES:
 http://clarencecraft.ddns.net:8000/modpackDistroPlatform/make/purplerite.jar
 
 //A list of links, one per line, of DIRECT downloads of config files.
-//this section is REQUIRED
 //this section is OPTIONAL, only uncomment it if you intend to use it!
 //CONFIGS:
 
-//A list of links, one per line, of DIRECT downloads of mods. These are mods that only need to be installed on the client-side. Only forge mods are supported.
+//A list of links, one per line, of DIRECT downloads of mods. These are mods that only need to be installed on the client-side. Currently only forge mods are supported.
 //this section is OPTIONAL, only uncomment it if you intend to use it!
 //CLIENTMODSOURCES:
 

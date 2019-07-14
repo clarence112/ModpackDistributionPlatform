@@ -180,7 +180,7 @@ def drawError(problem = "Something went wrong!", soulution = "Whatever it was, t
     textrend(soulution, 6, 180, fonttype = 4)
     if crash == "and burn":
         makeBttn("global stage; stage = 'close'", "Quit MDP", 450, 445, [255, 51, 102], fonttype = 1)
-        makeBttn("global textinput; stage = 'close'; webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform/issues')", "File Bug Report", 616, 445, [255, 51, 102], fonttype = 1)
+        makeBttn("global stage; stage = 'close'; webbrowser.open_new_tab('https://github.com/clarence112/ModpackDistributionPlatform/issues')", "File Bug Report", 616, 445, [255, 51, 102], fonttype = 1)
     if crash == "no":
         makeBttn("global stage; stage = 0", "Retry", 745, 445, [255, 51, 102], fonttype = 1)
 
@@ -194,6 +194,19 @@ def folderselect():
 #FOLDER SELECTION SCREEN ---------------------------------------------
 
 def drawSelectScreen():
+    if textinput.update(events):
+         global stage;
+         stage = 1
+         global installpath
+         installpath = textinput.get_text()
+    pygame.draw.rect(screen, 0xffffff, pygame.Rect((0, 100), (850, 21)))
+
+    if(twidth(textinput.get_text(), 4) > 640):
+        screen.blit(textinput.get_surface(), (10 - (twidth(textinput.get_text(), 4) - 640), 100))
+    else:
+        screen.blit(textinput.get_surface(), (10, 100))
+
+    makeBttn("global stage; stage = 'installTypeSelect'; global installpath; installpath = textinput.get_text()", "Set as install location", 667, 100, [255, 51, 102], fonttype = 4)
 
 #COMMON CODE FOR ALL STAGES ------------------------------------------
 
@@ -226,6 +239,8 @@ setup()
 scroll = 0
 
 #stage = "error0"
+
+global textinput
 
 global stage
 while(not(stage == "close")):
@@ -280,6 +295,7 @@ while(not(stage == "close")):
     if stage == "fselect":
         if(not(ranStageInit == "fselect")):
             ranStageInit = "fselect"
+            textinput = pygame_textinput.TextInput(font_family = "assets/rubik.ttf", font_size = 16, initial_string = "%userprofile%/Documents/mdp/packs/" + packToInstall[packToInstall.index("MODPACKNAME:") + 1] + "/")
 
         drawSelectScreen()
 

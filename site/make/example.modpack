@@ -22,7 +22,7 @@ FORGEVERSION:
 FORGELINK:
 https://files.minecraftforge.net/maven/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-installer.jar
 
-//A list of links, one per line, of DIRECT downloads of mods. Only forge mods are supported.
+//A list of links, one per line, of DIRECT downloads of mods. Currently only forge mods are supported.
 //this section is REQUIRED
 MODSOURCES:
 http://clarencecraft.ddns.net:8000/modpackDistroPlatform/make/purplerite.jar

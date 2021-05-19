@@ -266,6 +266,8 @@ while(not(stage == "close")):
                     httpcode = modpfile.status_code
                 except requests.exceptions.InvalidSchema:
                     httpcode = "INVALID_URL"
+                except requests.exceptions.MissingSchema:
+                    httpcode = "INVALID_URL"
                 except requests.exceptions.ConnectionError:
                     httpcode = "CONNECTION_TIMEOUT"
 
